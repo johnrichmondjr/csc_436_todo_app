@@ -1,23 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import CreateTodo from './CreateTodo'
+import TodoList from './TodoList';
+import UserBar from './UserBar';
 
 function App() {
+
+  const [user, setUser] = useState('');
+
+  const [todos, setTodos] = useState([]);
+
+  const handleLogin = (username) => {
+    setUser(username);
+  };
+
+  const handleLogout = () => {
+    setUser('');
+  };
+
+  const handleNewTodo = (newTodo) => {
+    setTodos(prevTodos => [...prevTodos, newTodo]);
+  };
+
+  const handleTodoToggle = (todoIndex) => {
+    const updatedTodos = [...todos];
+    const currentTodo = updatedTodos[todoIndex];
+    if (currentTodo.complete) {
+      currentTodo.dateCompleted = null;
+    } else {
+      currentTodo.dateCompleted = Date.now();
+    }
+    currentTodo.complete = !currentTodo.complete;
+    setTodos(updatedTodos);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <UserBar user={user} onLogin={handleLogin} onLogout={handleLogout} />
+      <CreateTodo user={user} onTodoSubmit={handleNewTodo} />
+      <TodoList todos={todos} onTodoToggle={handleTodoToggle} />
     </div>
   );
 }
