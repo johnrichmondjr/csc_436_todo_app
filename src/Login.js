@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
-export default function Login({ onLogin }) {
+export default function Login({ dispatchUser }) {
     const [username, setUsername] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (username.trim()) {
-            onLogin(username);
+            dispatchUser({ type: "LOGIN", username: username })
         }
     };
 

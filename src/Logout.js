@@ -1,8 +1,8 @@
-export default function Logout({ user, onLogout }) {
+export default function Logout({ user, dispatchUser }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onLogout("")
+        dispatchUser({ type: "LOGOUT" })
     };
 
     return (

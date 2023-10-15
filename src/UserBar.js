@@ -2,14 +2,14 @@ import Login from './Login'
 import Logout from './Logout'
 import Register from './Register'
 
-export default function UserBar({ user, onLogin, onLogout }) {
+export default function UserBar({ user, dispatchUser }) {
     if (user) {
-        return <Logout user={user} onLogout={onLogout} />;
+        return <Logout user={user} dispatchUser={dispatchUser} />;
     } else {
         return (
             <>
-                <Login onLogin={onLogin} />
-                <Register onLogin={onLogin} />
+                <Login dispatchUser={dispatchUser} />
+                <Register dispatchUser={dispatchUser} />
             </>
         );
     }
