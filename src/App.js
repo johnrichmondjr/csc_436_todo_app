@@ -2,45 +2,19 @@ import React, { useReducer } from 'react';
 import CreateTodo from './CreateTodo'
 import TodoList from './TodoList';
 import UserBar from './UserBar';
+import appReducer from './reducers';
 
 function App() {
+  const [state, dispatch] = useReducer(appReducer, {
+    user: '',
+    todos: []
+  });
 
-  function userReducer(state, action) {
-    switch (action.type) {
-      case "LOGIN":
-      case "REGISTER":
-        return action.username;
-      case "LOGOUT":
-        return "";
-      default:
-        return state;
-    }
-  }
+  const { user, todos } = state
 
-  const [user, dispatchUser] = useReducer(userReducer, "");
-
-  function todoReducer(state, action) {
-    switch (action.type) {
-      case "CREATE_TODO":
-        const newTodo = {
-          title: action.title,
-          description: action.description,
-          author: action.author,
-          dateCreated: action.dateCreated,
-          complete: action.complete,
-          dateCompleted: action.dateCompleted
-        };
-        return [newTodo, ...state];
-      default:
-        return state;
-    }
-  }
-
-  const [todos, dispatchTodos] = useReducer(todoReducer, [])
 
   const handleNewTodo = (newTodo) => {
-    //setTodos(prevTodos => [...prevTodos, newTodo]);
-    dispatchTodos({ type: "CREATE_TODO", ...newTodo })
+    dispatch({ type: "CREATE_TODO", ...newTodo })
   };
 
   const handleTodoToggle = (todoIndex) => {
@@ -52,14 +26,14 @@ function App() {
       currentTodo.dateCompleted = Date.now();
     }
     currentTodo.complete = !currentTodo.complete;
-    dispatchTodos({ type: "TOGGLE_TODO", ...updatedTodos });
+    dispatch({ type: "TOGGLE_TODO", ...updatedTodos });
   };
 
   return (
     <div>
-      <UserBar user={user} dispatchUser={dispatchUser} />
+      <UserBar user={user} dispatchUser={dispatch} />
       <CreateTodo user={user} onTodoSubmit={handleNewTodo} />
-      <TodoList todos={todos} onTodoToggle={handleTodoToggle} />
+      <TodoList todos={todos} dispatchTodo={dispatch} onTodoToggle={handleTodoToggle} />
     </div>
   );
 }

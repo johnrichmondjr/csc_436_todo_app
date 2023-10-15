@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from "uuid";
+
 import React, { useState } from 'react';
 
 export default function CreateTodo({ user, onTodoSubmit }) {
@@ -16,6 +18,7 @@ export default function CreateTodo({ user, onTodoSubmit }) {
             dateCreated: Date.now(),
             complete: false,
             dateCompleted: null,
+            id: uuidv4()
         };
 
         onTodoSubmit(newTodo);

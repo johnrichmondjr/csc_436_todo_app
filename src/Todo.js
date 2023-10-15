@@ -1,4 +1,12 @@
-export default function Todo({ title, description, dateCreated, author, complete, dateCompleted, onTodoToggle }) {
+export default function Todo({ title, description, dateCreated, author, complete, dateCompleted, id, dispatchTodo, onTodoToggle }) {
+
+    function deleteTodo(id) {
+        dispatchTodo({
+            type: "DELETE_TODO",
+            id: id
+        })
+    }
+
     return (
         < div >
             <input type="checkbox" checked={complete} onChange={onTodoToggle} />
@@ -10,6 +18,8 @@ export default function Todo({ title, description, dateCreated, author, complete
             <div>Date Completed: {complete && new Date(dateCompleted).toLocaleString()}</div>
             <br />
             <i>Written by <b>{author}</b></i>
+            <br />
+            <button onClick={() => deleteTodo(id)}>Delete ToDo</button>
         </div >
     );
 }
