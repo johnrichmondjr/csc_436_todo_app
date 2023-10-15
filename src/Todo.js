@@ -7,9 +7,31 @@ export default function Todo({ title, description, dateCreated, author, complete
         })
     }
 
+    function toggleTodo(id) {
+        if (!complete) {
+            dateCompleted = Date.now()
+        } else {
+            dateCompleted = null
+        }
+
+        complete = !complete
+        dispatchTodo({
+            type: "TOGGLE_TODO",
+            id: id,
+            dateCompleted: dateCompleted,
+            complete: complete
+        })
+    }
+
+
     return (
         < div >
-            <input type="checkbox" checked={complete} onChange={onTodoToggle} />
+            <input type="checkbox"
+                checked={complete}
+                onChange={() =>
+                    toggleTodo(id, dateCompleted, complete)
+                }
+            />
             <h3>{title}</h3>
             <div>{description}</div>
             <div>Created: {new Date(dateCreated).toLocaleString()}</div>

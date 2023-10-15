@@ -17,23 +17,11 @@ function App() {
     dispatch({ type: "CREATE_TODO", ...newTodo })
   };
 
-  const handleTodoToggle = (todoIndex) => {
-    const updatedTodos = [...todos];
-    const currentTodo = updatedTodos[todoIndex];
-    if (currentTodo.complete) {
-      currentTodo.dateCompleted = null;
-    } else {
-      currentTodo.dateCompleted = Date.now();
-    }
-    currentTodo.complete = !currentTodo.complete;
-    dispatch({ type: "TOGGLE_TODO", ...updatedTodos });
-  };
-
   return (
     <div>
       <UserBar user={user} dispatchUser={dispatch} />
       <CreateTodo user={user} onTodoSubmit={handleNewTodo} />
-      <TodoList todos={todos} dispatchTodo={dispatch} onTodoToggle={handleTodoToggle} />
+      <TodoList todos={todos} dispatchTodo={dispatch} />
     </div>
   );
 }
