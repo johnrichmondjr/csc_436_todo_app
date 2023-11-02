@@ -1,10 +1,14 @@
 import { v4 as uuidv4 } from "uuid";
 
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { StateContext } from "./contexts";
 
-export default function CreateTodo({ user, onTodoSubmit }) {
+export default function CreateTodo() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+
+    const { state, dispatch } = useContext(StateContext);
+    const { user } = state;
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -21,7 +25,7 @@ export default function CreateTodo({ user, onTodoSubmit }) {
             id: uuidv4()
         };
 
-        onTodoSubmit(newTodo);
+        dispatch({ type: "CREATE_TODO", ...newTodo });
 
         setTitle('');
         setDescription('');

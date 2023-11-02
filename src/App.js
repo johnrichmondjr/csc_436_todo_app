@@ -4,24 +4,23 @@ import TodoList from './TodoList';
 import UserBar from './UserBar';
 import appReducer from './reducers';
 
+import { StateContext } from "./contexts";
+
 function App() {
   const [state, dispatch] = useReducer(appReducer, {
     user: '',
     todos: []
   });
 
-  const { user, todos } = state
-
-
-  const handleNewTodo = (newTodo) => {
-    dispatch({ type: "CREATE_TODO", ...newTodo })
-  };
+  const { todos } = state
 
   return (
     <div>
-      <UserBar user={user} dispatchUser={dispatch} />
-      <CreateTodo user={user} onTodoSubmit={handleNewTodo} />
-      <TodoList todos={todos} dispatchTodo={dispatch} />
+      <StateContext.Provider value={{ state, dispatch }}>
+        <UserBar />
+        <CreateTodo />
+        <TodoList todos={todos} />
+      </StateContext.Provider>
     </div>
   );
 }

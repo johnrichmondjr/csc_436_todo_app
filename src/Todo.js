@@ -1,7 +1,12 @@
-export default function Todo({ title, description, dateCreated, author, complete, dateCompleted, id, dispatchTodo, onTodoToggle }) {
+import React, { useContext } from 'react';
+import { StateContext } from "./contexts";
+
+export default function Todo({ title, description, dateCreated, author, complete, dateCompleted, id }) {
+
+    const { dispatch } = useContext(StateContext);
 
     function deleteTodo(id) {
-        dispatchTodo({
+        dispatch({
             type: "DELETE_TODO",
             id: id
         })
@@ -15,7 +20,7 @@ export default function Todo({ title, description, dateCreated, author, complete
         }
 
         complete = !complete
-        dispatchTodo({
+        dispatch({
             type: "TOGGLE_TODO",
             id: id,
             dateCompleted: dateCompleted,
