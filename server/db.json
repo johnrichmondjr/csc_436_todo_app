@@ -19,5 +19,11 @@
       "id": 2
     }
   ],
-  "users": []
+  "users": [
+    {
+      "email": "clinton@yang",
+      "password": "$2a$10$FT8cG16buePwyaavWLQ2OOdU.1d7gP4SdQ22KZhMUsXkWEWv7pibm",
+      "id": 1
+    }
+  ]
 }
