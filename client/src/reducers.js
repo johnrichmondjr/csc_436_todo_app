@@ -23,6 +23,8 @@ function todoReducer(state, action) {
                 id: action.id
             };
             return [newTodo, ...state];
+        case "FETCH_TODOS":
+            return action.todos
         case "TOGGLE_TODO":
             return state.map((todo) => {
                 if (todo.id === action.id) {

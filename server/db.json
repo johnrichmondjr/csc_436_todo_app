@@ -1,0 +1,14 @@
+{
+    "todos": [
+        {
+            "id": 1,
+            "title": "portal",
+            "description": "Some content",
+            "dateCreated": "1/26/2023",
+            "author": "JOHN",
+            "complete": true,
+            "dateCompleted": "1/26/2023"
+        }
+    ],
+    "users": []
+}
