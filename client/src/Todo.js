@@ -1,3 +1,4 @@
+import { useResource } from 'react-request-hook'
 import React, { useContext } from 'react';
 import { StateContext } from "./contexts";
 
@@ -5,14 +6,36 @@ export default function Todo({ title, description, dateCreated, author, complete
 
     const { dispatch } = useContext(StateContext);
 
-    function deleteTodo(id) {
+    const [deleted, deleteTodo] = useResource((id) => ({
+        url: "/todos/" + id,
+        method: "DELETE"
+    }));
+
+    const [updated, updateTodo] = useResource(
+        (title, description, dateCreated, author, complete, dateCompleted, id) => ({
+            url: "/todos/" + id,
+            method: "PATCH",
+            data: {
+                title: title,
+                description: description,
+                dateCreated: dateCreated,
+                author: author,
+                complete: complete,
+                dateCompleted: dateCompleted,
+
+            },
+        })
+    );
+
+    function deleteTodoFromList(id) {
+        deleteTodo(id)
         dispatch({
             type: "DELETE_TODO",
             id: id
         })
     }
 
-    function toggleTodo(id) {
+    function toggleTodo(title, description, dateCreated, author, complete, dateCompleted, id) {
         if (!complete) {
             dateCompleted = Date.now()
         } else {
@@ -20,6 +43,7 @@ export default function Todo({ title, description, dateCreated, author, complete
         }
 
         complete = !complete
+        updateTodo(title, description, dateCreated, author, complete, dateCompleted, id);
         dispatch({
             type: "TOGGLE_TODO",
             id: id,
@@ -34,7 +58,7 @@ export default function Todo({ title, description, dateCreated, author, complete
             <input type="checkbox"
                 checked={complete}
                 onChange={() =>
-                    toggleTodo(id, dateCompleted, complete)
+                    toggleTodo(title, description, dateCreated, author, complete, dateCompleted, id)
                 }
             />
             <h3>{title}</h3>
@@ -46,7 +70,7 @@ export default function Todo({ title, description, dateCreated, author, complete
             <br />
             <i>Written by <b>{author}</b></i>
             <br />
-            <button onClick={() => deleteTodo(id)}>Delete ToDo</button>
+            <button onClick={() => deleteTodoFromList(id)}>Delete ToDo</button>
         </div >
     );
 }
