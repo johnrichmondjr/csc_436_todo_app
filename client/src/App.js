@@ -10,32 +10,38 @@ import { StateContext } from "./contexts";
 
 function App() {
 
-  const [todosResponse, getTodos] = useResource(() => ({
-    url: '/todos',
-    method: 'get'
-  }))
-
-  useEffect(getTodos, [])
-
-  useEffect(() => {
-    if (todosResponse && todosResponse.data) {
-      dispatch({ type: 'FETCH_TODOS', todos: todosResponse.data.reverse() })
-    }
-  }, [todosResponse])
+  const [todos, getTodos] = useResource(() => ({
+    url: "/todo",
+    method: "get",
+    headers: { Authorization: `${state?.user?.access_token}` },
+  }));
 
   const [state, dispatch] = useReducer(appReducer, {
     user: "",
     todos: []
   });
 
-  const { user, todos } = state
+
+  useEffect(() => {
+    if (state.user) {
+      getTodos();
+    }
+  }, [state?.user?.access_token]);
+
+  // useEffect(getTodos, [])
+
+  useEffect(() => {
+    if (todos && todos.isLoading === false && todos.data) {
+      dispatch({ type: "FETCH_TODOS", todos: todos.data.reverse() });
+    }
+  }, [todos]);
 
   return (
     <div>
       <StateContext.Provider value={{ state, dispatch }}>
         <UserBar />
         <CreateTodo />
-        <TodoList todos={todos} />
+        <TodoList />
       </StateContext.Provider>
     </div>
   );
