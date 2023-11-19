@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 
 import { useResource } from 'react-request-hook'
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { StateContext } from "./contexts";
 
 export default function CreateTodo() {
@@ -12,10 +12,26 @@ export default function CreateTodo() {
     const { user } = state;
 
     const [todo, createTodo] = useResource(({ title, description, author, dateCreated, complete, dateCompleted }) => ({
-        url: '/todos',
+        url: '/todo',
         method: 'post',
+        headers: { "Authorization": `${state.user.access_token}` },
         data: { title, description, author, dateCreated, complete, dateCompleted }
     }))
+
+    useEffect(() => {
+        if (todo.isLoading === false && todo.data) {
+            dispatch({
+                type: "CREATE_TODO",
+                title: todo.data.title,
+                description: todo.data.description,
+                author: user.username,
+                dateCreated: todo.data.dateCreated,
+                id: todo.data.id,
+                complete: todo.data.complete,
+                dateCompleted: todo.data.dateCompleted,
+            });
+        }
+    }, [todo]);
 
 
     const handleSubmit = (e) => {
@@ -26,7 +42,7 @@ export default function CreateTodo() {
         const newTodo = {
             title,
             description,
-            author: user,
+            author: user.username,
             dateCreated: Date.now(),
             complete: false,
             dateCompleted: null,
@@ -34,7 +50,6 @@ export default function CreateTodo() {
         };
 
         createTodo(newTodo)
-        dispatch({ type: "CREATE_TODO", ...newTodo });
 
         setTitle('');
         setDescription('');
