@@ -18,7 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 require("./setupMongo")();
 
 app.use("/auth", require("./routes/auth"));
-//app.use("/post", require("./routes/Todo"));
+app.use("/todo", require("./routes/todo"));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
