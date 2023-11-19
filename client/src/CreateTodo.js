@@ -42,7 +42,7 @@ export default function CreateTodo() {
 
     return (
         <form onSubmit={handleSubmit}>
-            <div>Author: <b>{user}</b></div>
+            <div>Author: <b>{user.username}</b></div>
             <div>
                 <label htmlFor="create-title">Title:</label>
                 <input

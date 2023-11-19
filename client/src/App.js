@@ -24,11 +24,11 @@ function App() {
   }, [todosResponse])
 
   const [state, dispatch] = useReducer(appReducer, {
-    user: '',
+    user: "",
     todos: []
   });
 
-  const { todos } = state
+  const { user, todos } = state
 
   return (
     <div>
