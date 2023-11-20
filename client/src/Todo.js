@@ -14,9 +14,11 @@ export default function Todo({ title, description, dateCreated, author, complete
 
     const [updated, updateTodo] = useResource(
         (title, description, dateCreated, author, complete, dateCompleted, id) => ({
-            url: "/todos/" + id,
+            url: "/todo/" + id,
             method: "PATCH",
+            headers: { Authorization: `${state.user.access_token}` },
             data: {
+                id: id,
                 title: title,
                 description: description,
                 dateCreated: dateCreated,
