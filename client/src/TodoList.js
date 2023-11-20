@@ -10,7 +10,7 @@ export default function TodoList() {
         <div>
             {todos.length === 0 && <h2>No posts found.</h2>}
             {todos.map((p, i) => (
-                < Todo {...p} key={p._id || p.id} dispatch={dispatch} />
+                < Todo {...p} key={p.id} dispatch={dispatch} />
             ))}
         </div>
     );

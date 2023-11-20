@@ -32,7 +32,7 @@ router.post("/", async function (req, res) {
         .save()
         .then((savedTodo) => {
             return res.status(201).json({
-                id: savedTodo._id,
+                _id: savedTodo._id,
                 title: savedTodo.title,
                 description: savedTodo.description,
                 author: savedTodo.author,
