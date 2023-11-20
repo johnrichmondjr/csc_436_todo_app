@@ -2,13 +2,14 @@ import { useResource } from 'react-request-hook'
 import React, { useContext } from 'react';
 import { StateContext } from "./contexts";
 
-export default function Todo({ title, description, dateCreated, author, complete, dateCompleted, id }) {
-
-    const { dispatch } = useContext(StateContext);
+export default function Todo({ title, description, dateCreated, author, complete, dateCompleted, _id }) {
+    const { state, dispatch } = useContext(StateContext);
 
     const [deleted, deleteTodo] = useResource((id) => ({
-        url: "/todos/" + id,
-        method: "DELETE"
+        url: "/todo/" + id,
+        method: "DELETE",
+        headers: { Authorization: `${state.user.access_token}` },
+        data: { id: id }
     }));
 
     const [updated, updateTodo] = useResource(
@@ -58,7 +59,7 @@ export default function Todo({ title, description, dateCreated, author, complete
             <input type="checkbox"
                 checked={complete}
                 onChange={() =>
-                    toggleTodo(title, description, dateCreated, author, complete, dateCompleted, id)
+                    toggleTodo(title, description, dateCreated, author, complete, dateCompleted, _id)
                 }
             />
             <h3>{title}</h3>
@@ -70,7 +71,7 @@ export default function Todo({ title, description, dateCreated, author, complete
             <br />
             <i>Written by <b>{author}</b></i>
             <br />
-            <button onClick={() => deleteTodoFromList(id)}>Delete ToDo</button>
+            <button onClick={() => deleteTodoFromList(_id)}>Delete ToDo</button>
         </div >
     );
 }

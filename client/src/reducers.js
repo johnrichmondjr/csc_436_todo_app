@@ -22,7 +22,7 @@ function todoReducer(state, action) {
                 dateCreated: action.dateCreated,
                 complete: action.complete,
                 dateCompleted: action.dateCompleted,
-                id: action.id
+                _id: action._id
             };
             return [newTodo, ...state];
         case "FETCH_TODOS":
@@ -39,7 +39,7 @@ function todoReducer(state, action) {
                 return todo;
             });
         case "DELETE_TODO":
-            return state.filter((todo) => todo.id !== action.id);
+            return state.filter((todo) => todo._id !== action.id);
         default:
             return state;
     }
